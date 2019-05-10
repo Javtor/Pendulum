@@ -47,6 +47,7 @@ public class MainView {
 
     @FXML
     void start(ActionEvent event) {
+    	stop(null);
     	timeThread = new TimeThread(this);
     	timeThread.start();
     }
@@ -87,7 +88,12 @@ public class MainView {
 //    	//Eje x
 //    	gc.strokeLine(0, height, width*2, height);
     	
+    	
+    	gc.setLineDashes(null);
     	gc.strokeLine(width, 0, rawX, rawY);
+    	
+    	gc.setLineDashes(10);
+    	gc.strokeLine(width, 0, width, height);
     	
     	gc.fillOval(x, y, PEND_W, PEND_H);
     	

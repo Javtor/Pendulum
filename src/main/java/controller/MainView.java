@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.scene.paint.Color;
+import model.Pendulum;
+import threads.TimeThread;
 
 import java.awt.GraphicsConfigTemplate;
 import java.net.URL;
@@ -17,11 +19,8 @@ public class MainView {
 	public static final double PEND_W = 20;
 	public static final double PEND_H = 20;
 
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+	private Pendulum pendulum;
+	private TimeThread timeThread;
 
     @FXML
     private Canvas canvas;
@@ -40,18 +39,28 @@ public class MainView {
 
     @FXML
     private Button btnStart;
+    
+    @FXML
+    private Button btnStop;
 
     @FXML
     void start(ActionEvent event) {
-    	double x = Double.parseDouble(txtMass.getText());
-    	double y = Double.parseDouble(txtGravity.getText());
-    	drawPend(x, y);
+    	timeThread = new TimeThread(pendulum, this);
+    	timeThread.start();
     }
 
     @FXML
     void initialize() {
     	drawPend(0, 0);
+    	pendulum = new Pendulum(-80, 50);
+    	timeThread = new TimeThread(pendulum, this);
     	
+    }
+    
+    public void drawPend() {
+    	double x = pendulum.getX();
+    	double y = pendulum.getY();
+    	drawPend(x, y);
     }
     
     public void drawPend(double x, double y) {
@@ -82,4 +91,10 @@ public class MainView {
     	gc.fillOval(x, y, PEND_W, PEND_H);
     	
     }
+    
+    @FXML
+    void stop(ActionEvent event) {
+    	timeThread.setPlaying(false);
+    }
+
 }

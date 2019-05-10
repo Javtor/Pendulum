@@ -2,15 +2,19 @@ package model;
 
 public class Pendulum {
 	
+	public static final double g = 9.81;
+	
 	private double theta;
 	private double dTheta;
+	private double L;
+	private double m;
 	
-	
-	public Pendulum(double theta, double dTheta) {
+	public Pendulum(double theta, double dTheta, double l, double m) {
 		super();
-		this.theta = theta;
+		setTheta(theta);
 		this.dTheta = dTheta;
-		
+		L = l;
+		this.m = m;
 	}
 
 	public double getTheta() {
@@ -18,7 +22,7 @@ public class Pendulum {
 	}
 
 	public void setTheta(double theta) {
-		this.theta = theta;
+		this.theta = Math.toRadians(theta);
 	}
 
 	public double getDTheta() {
@@ -31,14 +35,33 @@ public class Pendulum {
 	
 	public void step(double dt) {
 		theta += dTheta*dt;
+		dTheta -= (g/L)*theta;
 	}
 	
 	public double getX() {
-		return theta;
+		return L*Math.sin(theta);
 	}
 	
 	public double getY() {
+//		return L*(1-Math.cos(theta));
 		return 0;
 	}
 
+	public double getL() {
+		return L;
+	}
+
+	public void setL(double l) {
+		L = l;
+	}
+
+	public double getM() {
+		return m;
+	}
+
+	public void setM(double m) {
+		this.m = m;
+	}
+
+	
 }

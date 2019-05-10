@@ -45,15 +45,14 @@ public class MainView {
 
     @FXML
     void start(ActionEvent event) {
-    	timeThread = new TimeThread(pendulum, this);
+    	timeThread = new TimeThread(this);
     	timeThread.start();
     }
 
     @FXML
     void initialize() {
-    	drawPend(0, 0);
-    	pendulum = new Pendulum(-80, 50);
-    	timeThread = new TimeThread(pendulum, this);
+    	drawPend(0, 0);    	
+    	timeThread = new TimeThread(this);
     	
     }
     
@@ -96,5 +95,15 @@ public class MainView {
     void stop(ActionEvent event) {
     	timeThread.setPlaying(false);
     }
+
+	public void initPendulum() {
+		double height = canvas.getHeight()/2;
+		pendulum = new Pendulum(-10, 0, height, 1);
+	}
+
+	public void step(double deltaTime) {
+		pendulum.step(deltaTime);
+		
+	}
 
 }

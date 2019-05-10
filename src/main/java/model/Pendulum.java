@@ -43,8 +43,8 @@ public class Pendulum {
 	}
 	
 	public double getY() {
-//		return L*(1-Math.cos(theta));
-		return 0;
+		return L*(1-Math.cos(theta));
+//		return 0;
 	}
 
 	public double getL() {

@@ -18,6 +18,8 @@ public class MainView {
 	
 	public static final double PEND_W = 20;
 	public static final double PEND_H = 20;
+	
+	public static final double PIXEL_SIZE = 20;
 
 	private Pendulum pendulum;
 	private TimeThread timeThread;
@@ -58,7 +60,7 @@ public class MainView {
     
     public void drawPend() {
     	double x = pendulum.getX();
-    	double y = pendulum.getY();
+    	double y = -pendulum.getY();
     	drawPend(x, y);
     }
     
@@ -98,7 +100,7 @@ public class MainView {
 
 	public void initPendulum() {
 		double height = canvas.getHeight()/2;
-		pendulum = new Pendulum(-10, 0, height, 1);
+		pendulum = new Pendulum(-90, 0, height, 1);
 	}
 
 	public void step(double deltaTime) {

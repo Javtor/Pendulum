@@ -31,7 +31,7 @@ public class TimeThread extends Thread {
 			mainView.step(deltaTime);
 			System.out.println(deltaTime);
 			try {
-				Thread.sleep(12);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

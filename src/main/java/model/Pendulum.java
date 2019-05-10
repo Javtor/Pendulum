@@ -2,7 +2,8 @@ package model;
 
 public class Pendulum {
 	
-	public static final double g = 9.81;
+	public static final double g = 981;
+	public static final double k = 0.1;
 	
 	private double theta;
 	private double dTheta;
@@ -35,7 +36,8 @@ public class Pendulum {
 	
 	public void step(double dt) {
 		theta += dTheta*dt;
-		dTheta -= (g/L)*theta;
+		dTheta += (-(g/L)*Math.sin(theta)-k*dTheta)*dt;
+//		dTheta += (-(g/L)*theta-k*dTheta)*dt;
 	}
 	
 	public double getX() {

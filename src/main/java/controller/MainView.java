@@ -100,7 +100,7 @@ public class MainView {
 
 	public void initPendulum() {
 		double height = canvas.getHeight()/2;
-		pendulum = new Pendulum(-90, 0, height, 1);
+		pendulum = new Pendulum(-85, 0, height, 1);
 	}
 
 	public void step(double deltaTime) {

@@ -20,7 +20,6 @@ public class TimeThread extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		playing = true;
-		mainView.initPendulum();
 		long t1 = System.currentTimeMillis();
 		long t2 = System.currentTimeMillis();
 		while(playing) {
@@ -29,9 +28,9 @@ public class TimeThread extends Thread {
 			deltaTime = (t2- t1)/1000.0;
 			mainView.drawPend();
 			mainView.step(deltaTime);
-			System.out.println(deltaTime);
+//			System.out.println(deltaTime);
 			try {
-				Thread.sleep(10);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -11,8 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 
 public class MainView {
 	
@@ -38,6 +38,12 @@ public class MainView {
 
     @FXML
     private TextField txtAngle;
+    
+    @FXML
+    private TextField txtFriction;
+    
+    @FXML
+    private TextField txtVelocity;
 
     @FXML
     private Button btnStart;
@@ -47,19 +53,32 @@ public class MainView {
 
     @FXML
     void start(ActionEvent event) {
+    	
     	stop(null);
+    	initPendulum();
     	timeThread = new TimeThread(this);
     	timeThread.start();
     }
 
     @FXML
     void initialize() {
+    	defaultParameters();
+    	initPendulum();
     	drawPend(0, 0);    	
     	timeThread = new TimeThread(this);
     	
     }
     
-    public void drawPend() {
+    private void defaultParameters() {
+		txtMass.setText("1");
+		txtGravity.setText("9.81");
+		txtLength.setText("1");
+		txtAngle.setText("-85");
+		txtFriction.setText("0.1");
+		txtVelocity.setText("0");
+	}
+
+	public void drawPend() {
     	double x = pendulum.getX();
     	double y = -pendulum.getY();
     	drawPend(x, y);
@@ -77,6 +96,9 @@ public class MainView {
     	double width = canvas.getWidth()/2;
     	double height = canvas.getHeight()/2;
     	
+    	rawX *= height/pendulum.getL();
+    	rawY *= height/pendulum.getL();
+    	
     	rawX += width;
     	rawY += height;
     	
@@ -90,12 +112,14 @@ public class MainView {
     	
     	
     	gc.setLineDashes(null);
-    	gc.strokeLine(width, 0, rawX, rawY);
+    	gc.strokeLine(width, height*3/4, rawX, rawY+height*3/4);
+    	
+//    	System.out.println(Math.sqrt(Math.pow(width-rawX, 2)+Math.pow(-rawY, 2)));
     	
     	gc.setLineDashes(10);
-    	gc.strokeLine(width, 0, width, height);
+    	gc.strokeLine(width, height+height*3/4, width, height+height*3/4);
     	
-    	gc.fillOval(x, y, PEND_W, PEND_H);
+    	gc.fillOval(x, y+height*3/4, PEND_W, PEND_H);
     	
     }
     
@@ -105,8 +129,24 @@ public class MainView {
     }
 
 	public void initPendulum() {
-		double height = canvas.getHeight()/2;
-		pendulum = new Pendulum(-85, 0, height, 1);
+//		double height = canvas.getHeight()/2;
+		try {
+			double angle = Double.parseDouble(txtAngle.getText());
+			double length = Double.parseDouble(txtLength.getText());
+			double mass = Double.parseDouble(txtMass.getText());
+			double gravity = Double.parseDouble(txtGravity.getText());
+			double friction = Double.parseDouble(txtFriction.getText());
+			double velocity = Double.parseDouble(txtVelocity.getText());
+			
+			pendulum = new Pendulum(angle, velocity, length, mass, gravity, friction);
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText(null);
+			alert.setContentText("Check your inputs");
+
+			alert.showAndWait();
+		}
 	}
 
 	public void step(double deltaTime) {

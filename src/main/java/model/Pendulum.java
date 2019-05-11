@@ -2,20 +2,33 @@ package model;
 
 public class Pendulum {
 	
-	public static final double g = 981;
-	public static final double k = 0.1;
-	
 	private double theta;
 	private double dTheta;
+	/**
+	 * Length
+	 */
 	private double L;
+	/**
+	 * Mass
+	 */
 	private double m;
+	/**
+	 * Gravity
+	 */
+	private double g;
+	/**
+	 * Friction
+	 */
+	private double k;
 	
-	public Pendulum(double theta, double dTheta, double l, double m) {
+	public Pendulum(double theta, double dTheta, double l, double m, double g, double k) {
 		super();
 		setTheta(theta);
 		this.dTheta = dTheta;
 		L = l;
 		this.m = m;
+		this.g = g;
+		this.k = k;
 	}
 
 	public double getTheta() {
@@ -41,7 +54,7 @@ public class Pendulum {
 	}
 	
 	public double getX() {
-		return L*Math.sin(theta);
+		return L*Math.sin(theta); 
 	}
 	
 	public double getY() {
